@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="每日热榜汇总 — 聚合微博、百度、今日头条、知乎、B 站、抖音、GitHub、Hacker News、掘金、财联社当日热门榜单">
+<title>每日热榜汇总</title>
+<link rel="canonical" href="https://hot.jinzhai.icu/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#fbf9f4">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="热榜日报">
+<meta property="og:title" content="每日热榜汇总 · 热榜日报">
+<meta property="og:description" content="每日热榜汇总 — 聚合微博、百度、今日头条、知乎、B 站、抖音、GitHub、Hacker News、掘金、财联社当日热门榜单">
+<meta property="og:url" content="https://hot.jinzhai.icu/">
+<meta property="og:image" content="https://hot.jinzhai.icu/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="每日热榜汇总 · 热榜日报">
+<meta name="twitter:description" content="每日热榜汇总 — 聚合微博、百度、今日头条、知乎、B 站、抖音、GitHub、Hacker News、掘金、财联社当日热门榜单">
+<meta name="twitter:image" content="https://hot.jinzhai.icu/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"热榜日报","alternateName":"每日热榜汇总","url":"https://hot.jinzhai.icu/","logo":"https://hot.jinzhai.icu/logo.png"}</script>
+<style>
+
+    /* ===== CSS Reset & Variables ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    :root{
+      /* Dark theme (default, high-end editorial) */
+      --bg:#0f1114; --surface:#16191e; --surface-2:#1e2229;
+      --border:#2b323d; --text:#e8eaed; --muted:#9aa1ad;
+      --accent:#d9a94c; --accent-2:#c97c55; --top3:#d9a94c; --link:#a7c7e7;
+      --shadow:0 8px 24px rgba(0,0,0,.35);
+      --font-serif:"Noto Serif SC","Songti SC","SimSun",serif;
+      --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,"Noto Sans Mono",monospace;
+      --maxw:1160px; --radius:12px; --gap:16px;
+    }
+    @media(prefers-color-scheme:light){
+      :root{
+        --bg:#fbf9f4; --surface:#fff; --surface-2:#f4f1ea; --border:#d8d2c2;
+        --text:#1a1a1a; --muted:#5f5f5f; --accent:#8f5e2e; --accent-2:#a85a3a;
+        --top3:#a06618; --link:#2c5f8a; --shadow:0 8px 24px rgba(0,0,0,.07);
+      }
+    }
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 var(--font-sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    ol,ul{margin:0;padding:0;list-style:none}
+    img{max-width:100%;height:auto}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{position:sticky;top:0;z-index:1000;background:var(--bg)}
+    .hero{padding:28px 0 10px;border-bottom:1px solid var(--border)}
+    .meta-line{font-size:13px;color:var(--muted);margin-top:8px;display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center}
+    .meta-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12.5px;color:var(--muted)}
+    .meta-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent),transparent 80%)}
+    .hero-title{font-family:var(--font-serif);font-size:40px;line-height:1.15;font-weight:700;letter-spacing:.5px;margin:0;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+    .hero-title .sub{font-size:16px;font-weight:400;color:var(--muted);font-family:var(--font-sans);margin-top:6px;opacity:.85}
+    .hero-title .accent{color:var(--accent)}
+    .site-logo{width:40px;height:40px;border-radius:9px;align-self:center;flex:0 0 auto}
+    .group-nav{position:sticky;top:60px;z-index:999;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .group-nav::-webkit-scrollbar{display:none}
+    .nav-list{display:flex;gap:2px;max-width:var(--maxw);margin:0 auto;padding:0 20px;box-sizing:border-box}
+    .nav-item{white-space:nowrap}
+    .nav-link{display:inline-flex;align-items:center;padding:10px 15px;font-size:13.5px;font-weight:500;color:var(--muted);border-radius:0;transition:color .25s ease,background .25s ease;gap:8px}
+    .nav-link::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0;transform:scale(0);transition:.25s ease}
+    .nav-link.active,.nav-link:hover{color:var(--text);background:var(--surface-2)}
+    .nav-link.active::before{opacity:1;transform:scale(1)}
+    main{padding:6px 0 40px}
+    section{scroll-margin-top:180px;margin-bottom:46px}
+    .section-head{display:flex;align-items:center;gap:12px;padding:6px 0 14px;border-bottom:1px solid var(--border);margin-bottom:14px}
+    .section-tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+    .section-title{font-family:var(--font-serif);font-size:20px;font-weight:600}
+    .source-list{display:grid;gap:var(--gap)}
+    @media(min-width:1024px){.source-list{grid-template-columns:repeat(3,1fr)}}
+    .source-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+    .source-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+    .card-title{font-size:13px;font-weight:600;color:var(--text)}
+    .card-meta{font-size:12px;color:var(--muted)}
+    .card-body{padding:8px 0}
+    .rank-item{display:flex;align-items:stretch;gap:10px;padding:7px 14px}
+    .rank-item:hover{background:var(--surface-2)}
+    .rank-item:nth-child(odd):hover{background:var(--surface)}
+    .rank-item:last-child{border-bottom:0}
+    .rank-num{font-size:13px;font-weight:600;line-height:24px;min-width:22px;text-align:center;color:var(--muted);flex:0 0 auto}
+    .rank-num.top3{color:var(--top3);font-size:16px}
+    .rank-num.gold::before{content:"★"}
+    .rank-num.silver::before{content:"✶"}
+    .rank-num.bronze::before{content:"✷"}
+    .item-inner{flex:1 1 auto;min-width:0}
+    .item-title{font-size:14px;font-weight:500;line-height:1.45;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;transition:color .2s ease}
+    .rank-item:hover .item-title{color:var(--link)}
+    .item-hot{font-size:12px;font-weight:600;color:var(--accent);margin-top:3px;font-variant-numeric:tabular-nums}
+    footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px;font-size:12.5px;color:var(--muted)}
+    .footer-grid{display:grid;gap:16px}
+    @media(min-width:768px){.footer-grid{grid-template-columns:2fr 1fr}}
+    .footer-head{font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px}
+    .footer-line{margin:0;color:var(--muted)}
+    .footer-line li{margin-bottom:4px}
+    .sources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px 10px}
+    .source-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;background:var(--surface);border:1px solid var(--border);border-radius:16px;font-size:12px;color:var(--text);transition:background .2s ease,border-color .2s ease}
+    .source-pill:hover{border-color:var(--accent);color:var(--accent)}
+    .mono{font-family:var(--font-mono)}
+    .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <h1 class="hero-title"><img class="site-logo" src="/logo.svg" alt="热榜日报" width="40" height="40"><span class="accent">热</span><span>榜</span><span>日</span><span>报</span>
+        <span class="sub">每日热榜汇总</span></h1>
+      <div class="meta-line" id="metaLine" role="status" aria-live="polite"></div>
+    </div>
+    <nav class="group-nav" role="navigation" aria-label="榜单分组"><ul class="nav-list" id="groupNav"></ul></nav>
+  </header>
+  <main class="wrap" id="app"></main>
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <div class="footer-head">关于本页</div>
+        <p class="footer-line">本网页为个人日常聚合页，数据来源于各平台公开榜单（微博热搜、百度热搜、今日头条热榜、知乎热榜、B 站热门、抖音热榜、GitHub 日榜、Hacker News、掘金综合、财联社头条），按热度取前 10 条汇总生成，仅供查阅。</p>
+        <p class="footer-line">页面数据取自 <span class="mono" id="dataFile">digest.json</span>，无外部请求，可在本地直接打开。</p>
+        <p class="footer-line">更新：<span class="mono" id="footerUpdate"></span></p>
+      </div>
+      <div>
+        <div class="footer-head">数据源</div>
+        <div class="sources-grid" id="sourcesPills"></div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const DATA = {"generated_at": "2026-11-10T09:35:49+08:00", "sources": [{"name": "weibo", "title": "微博", "type": "热搜榜", "total": 51, "items": [{"rank": 1, "title": "石家庄天降陨石最大单体35公斤", "hot": 1275584, "url": "https://s.weibo.com/weibo?q=%23%E7%9F%B3%E5%AE%B6%E5%BA%84%E5%A4%A9%E9%99%8D%E9%99%A8%E7%9F%B3%E6%9C%80%E5%A4%A7%E5%8D%95%E4%BD%9335%E5%85%AC%E6%96%A4%23&t=31&band_rank=1&Refer=top"}, {"rank": 2, "title": "小米四款车全部上榜", "hot": 1031786, "url": "https://s.weibo.com/weibo?q=%E5%B0%8F%E7%B1%B3%E5%9B%9B%E6%AC%BE%E8%BD%A6%E5%85%A8%E9%83%A8%E4%B8%8A%E6%A6%9C&t=31&band_rank=2&Refer=top"}, {"rank": 3, "title": "铸牢共同体中华一家亲", "hot": 667606, "url": "https://s.weibo.com/weibo?q=%23%E9%93%B8%E7%89%A2%E5%85%B1%E5%90%8C%E4%BD%93%E4%B8%AD%E5%8D%8E%E4%B8%80%E5%AE%B6%E4%BA%B2%23&t=31&band_rank=3&Refer=top"}]}, {"name": "baidu", "title": "百度", "type": "热搜", "total": 51, "items": [{"rank": 1, "title": "坚持制度治党、依规治党", "hot": null, "url": "https://m.baidu.com/s?word=%E5%9D%9A%E6%8C%81%E5%88%B6%E5%BA%A6%E6%B2%BB%E5%85%9A%E3%80%81%E4%BE%9D%E8%A7%84%E6%B2%BB%E5%85%9A&sa=fyb_news"}, {"rank": 2, "title": "全国陨石猎人扎堆赶赴石家庄", "hot": null, "url": "https://m.baidu.com/s?word=%E5%85%A8%E5%9B%BD%E9%99%A8%E7%9F%B3%E7%8C%8E%E4%BA%BA%E6%89%8E%E5%A0%86%E8%B5%B6%E8%B5%B4%E7%9F%B3%E5%AE%B6%E5%BA%84&sa=fyb_news"}, {"rank": 3, "title": "特朗普称伊朗战事已“事实上结束”", "hot": null, "url": "https://m.baidu.com/s?word=%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E4%BC%8A%E6%9C%97%E6%88%98%E4%BA%8B%E5%B7%B2%E2%80%9C%E4%BA%8B%E5%AE%9E%E4%B8%8A%E7%BB%93%E6%9D%9F%E2%80%9D&sa=fyb_news"}]}, {"name": "github", "title": "GitHub", "type": "日榜", "total": 11, "items": [{"rank": 1, "title": "skills", "hot": "190,962", "url": "https://github.com/anthropics/skills"}, {"rank": 2, "title": "astryx", "hot": "20,033", "url": "https://github.com/meta/astryx"}, {"rank": 3, "title": "sherlock", "hot": "107,015", "url": "https://github.com/sherlock-project/sherlock"}]}]};
+    /* ===== Grouping & rendering ===== */
+    const GROUPS = [
+      {id:"hot",name:"热搜综合",sources:["weibo","baidu","toutiao"]},
+      {id:"deep",name:"深度讨论",sources:["zhihu"]},
+      {id:"video",name:"视频",sources:["bilibili","douyin"]},
+      {id:"tech",name:"科技",sources:["github","hackernews","juejin"]},
+      {id:"finance",name:"财经",sources:["cls"]},
+    ];
+    function parseHot(hot){
+      if(hot===null||hot===""||hot===undefined)return null;
+      if(typeof hot==="number")return hot;
+      const s=(""+hot).replace(/[^\d.\u4e24\u5341\u767e\u4e07\u4ebf]/g,"").trim();
+      if(!s)return null;
+      let num=parseFloat(s);
+      if(s.includes("\u4ebf"))num*=100000000;
+      else if(s.includes("\u4e07"))num*=10000;
+      return isFinite(num)&&num>0?num:null;
+    }
+
+    function fmtHot(hot){
+      const v=parseHot(hot);
+      if(v===null)return "\u2014";
+      if(v>=100000000)return (v/100000000).toFixed(2)+"\u4ebf";
+      if(v>=10000)return (v/10000).toFixed(1)+"\u4e07";
+      return String(v);
+    }
+
+    function getLabel(type){
+      if(type==="github")return "\u661f";
+      if(type==="hackernews")return "\u7968";
+      return "\u70ed\u5ea6";
+    }
+
+    function timeStr(iso,fmt){
+      const d=new Date(iso);
+      const week=["\u65e5","\u4e00","\u4e8c","\u4e09","\u56db","\u4e94","\u516d"];
+      fmt = fmt.replace("dddd","\u661f\u671f"+week[d.getDay()]);
+      return fmt.replace("YYYY",d.getFullYear()).replace("MM",String(d.getMonth()+1).padStart(2,"0")).replace("DD",String(d.getDate()).padStart(2,"0")).replace("hh",String(d.getHours()).padStart(2,"0")).replace("mm",String(d.getMinutes()).padStart(2,"0")).replace("ss",String(d.getSeconds()).padStart(2,"0")).replace("ddd",""+week[d.getDay()]);
+    }
+
+    function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+    function escAttr(s){return esc(s)}
+
+    const groupMap={};
+    DATA.sources.forEach(s=>{if(!groupMap[s.name])groupMap[s.name]=[];groupMap[s.name].push(s)});
+
+    const app=document.getElementById("app");
+    GROUPS.forEach(g=>{
+      const section=document.createElement("section");
+      section.id=g.id;
+      const head=document.createElement("div");
+      head.className="section-head";
+      head.innerHTML="<span class=\"section-tag\">Group</span><h2 class=\"section-title\">"+g.name+"</h2>";
+      section.appendChild(head);
+      const list=document.createElement("div");
+      list.className="source-list";
+      g.sources.forEach(srcName=>{
+        (groupMap[srcName]||[]).forEach(src=>{
+          const cards=(src.items||[]).slice(0,10).map(item=>{
+            const hotLabel=getLabel(src.name);
+            const hotDisplay=item.hot!=null&&item.hot!==""&&item.hot!==undefined
+              ? hotLabel+" · "+fmtHot(item.hot)
+              : "\u2014";
+            return '<div class="rank-item" data-rank="'+item.rank+'"><div class="rank-num '+(item.rank<=3?"top3 ":"")+' '+(["gold","silver","bronze"][item.rank-1]||"")+'">'+item.rank+'</div><div class="item-inner"><a class="item-title" href="'+escAttr(item.url)+'" target="_blank" rel="noopener noreferrer" title="'+escAttr(item.title)+'">'+esc(item.title)+'</a><div class="item-hot">'+hotDisplay+'</div></div></div>';
+          }).join("");
+          const card=document.createElement("div");
+          card.className="source-card";
+          card.innerHTML='<div class="card-head"><div class="card-title">'+esc(src.title)+" · "+esc(src.type)+'</div><div class="card-meta">Top 10</div></div><div class="card-body">'+cards+'</div>';
+          list.appendChild(card);
+        });
+      });
+      section.appendChild(list);
+      app.appendChild(section);
+    });
+
+    const nowFmt=timeStr(DATA.generated_at,"YYYY\u5e74MM\u6708DD\u65e5 dddd hh:mm");
+    document.getElementById("metaLine").innerHTML="<span class=\"meta-chip\"><span class=\"dot\"></span>\u751f\u6210\uff1a"+nowFmt+"</span>"+
+      "<span class=\"meta-chip\"><span class=\"dot\"></span>\u699c\u5355\uff1a"+DATA.sources.length+" \u7ad9 \u00b7 \u6bcf\u65e5\u805a\u5408</span>"+
+      "<span class=\"meta-chip\">\u66f4\u65b0\uff1a<span class=\"mono\">"+timeStr(DATA.generated_at,"MM-DD hh:mm")+"</span></span>";
+
+    const nav=document.getElementById("groupNav");
+    GROUPS.forEach(g=>{
+      const li=document.createElement("li");li.className="nav-item";
+      const a=document.createElement("a");
+      a.className="nav-link";a.href="#"+g.id;a.textContent=g.name;
+      a.onclick=e=>{e.preventDefault();document.getElementById(g.id).scrollIntoView({behavior:"smooth"})};
+      li.appendChild(a);nav.appendChild(li);
+    });
+
+    const items=GROUPS.map(g=>({id:g.id,link:document.querySelector(".nav-link[href=\"#"+g.id+"\"]"),section:document.getElementById(g.id)}));
+    const visible=new Map();
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting)visible.set(e.target,e.intersectionRatio);
+        else visible.delete(e.target);
+      });
+      let best=null,bestR=-1;
+      items.forEach(i=>{
+        if(i.section&&visible.has(i.section)){
+          const r=visible.get(i.section);
+          if(r>bestR){bestR=r;best=i;}
+        }
+      });
+      items.forEach(i=>{if(i.link)i.link.classList.toggle("active",i===best)});
+    },{rootMargin:"-70px 0px -60% 0px",threshold:[0,0.05,0.1,0.15,0.2,0.25,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]});
+    items.forEach(i=>{if(i.section)obs.observe(i.section)});
+
+    document.getElementById("footerUpdate").textContent=timeStr(DATA.generated_at,"YYYY\u5e74MM\u6708DD\u65e5 dddd hh:mm");
+    const pills=document.getElementById("sourcesPills");
+    DATA.sources.forEach(s=>{
+      const p=document.createElement("a");
+      p.className="source-pill";p.textContent=s.title;
+      p.onclick=e=>{e.preventDefault();const g=GROUPS.find(grp=>grp.sources.includes(s.name));if(g)document.getElementById(g.id).scrollIntoView({behavior:"smooth"})};
+      pills.appendChild(p);
+    });
+
+    document.querySelectorAll(".top3").forEach((el,idx)=>{
+      el.animate([{transform:"scale(.85)",opacity:0},{transform:"scale(1)",opacity:1}],{duration:420,delay:idx*60});
+    });
+  </script>
+</body>
+</html>
